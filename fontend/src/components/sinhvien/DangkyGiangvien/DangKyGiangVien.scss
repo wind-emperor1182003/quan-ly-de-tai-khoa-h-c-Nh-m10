@@ -1,0 +1,240 @@
+// Biến SCSS
+$primary-color: #007bff;
+$secondary-color: #6c757d;
+$success-color: #28a745;
+$danger-color: #dc3545;
+$background-color: #f8f9fa;
+$card-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+$border-radius: 8px;
+$transition: all 0.3s ease;
+
+// Reset và base styles
+.dang-ky-giang-vien-page {
+  min-height: 100vh;
+  background-color: $background-color;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Arial', sans-serif;
+}
+
+.dang-ky-giang-vien-container {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: white;
+  border-radius: $border-radius;
+  box-shadow: $card-shadow;
+
+  h2 {
+    text-align: center;
+    color: $primary-color;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    font-weight: 600;
+  }
+}
+
+// Thông báo loading và lỗi
+.loading {
+  text-align: center;
+  color: $secondary-color;
+  font-size: 1.2rem;
+  animation: pulse 1.5s infinite;
+
+  @keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+  }
+}
+
+.error {
+  text-align: center;
+  color: $danger-color;
+  font-size: 1.1rem;
+  background: lighten($danger-color, 40%);
+  padding: 1rem;
+  border-radius: $border-radius;
+  margin-bottom: 1.5rem;
+}
+
+// Thông tin giảng viên
+.giang-vien-info {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: $border-radius;
+  box-shadow: $card-shadow;
+  margin-bottom: 2rem;
+
+  h3 {
+    color: $primary-color;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+  }
+
+  p {
+    margin: 0.5rem 0;
+    font-size: 1rem;
+    color: $secondary-color;
+
+    strong {
+      color: #333;
+    }
+  }
+
+  button.btn.btn-gradient {
+    display: block;
+    margin: 1.5rem auto 0;
+    padding: 0.75rem 2rem;
+    font-size: 1rem;
+    background: linear-gradient(90deg, $primary-color, lighten($primary-color, 20%));
+    color: white;
+    border: none;
+    border-radius: $border-radius;
+    cursor: pointer;
+    transition: $transition;
+
+    &:hover {
+      background: linear-gradient(90deg, darken($primary-color, 10%), $primary-color);
+      box-shadow: $card-shadow;
+    }
+  }
+}
+
+// Form đăng ký giảng viên
+.register-form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+}
+
+.group-info {
+  flex: 1;
+  background: #f1f3f5;
+  padding: 1.5rem;
+  border-radius: $border-radius;
+  box-shadow: $card-shadow;
+
+  p {
+    margin: 0.5rem 0;
+    font-size: 1rem;
+    color: $secondary-color;
+
+    strong {
+      color: #333;
+    }
+  }
+}
+
+.register-form {
+  flex: 2;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+
+    label {
+      font-size: 1rem;
+      color: #333;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+
+    select {
+      padding: 0.75rem;
+      font-size: 1rem;
+      border: 1px solid #ced4da;
+      border-radius: $border-radius;
+      transition: $transition;
+      appearance: none;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"><path fill="%236c757d" d="M7 10l5 5 5-5z"/></svg>') no-repeat right 0.75rem center/12px 12px;
+
+      &:focus {
+        outline: none;
+        border-color: $primary-color;
+        box-shadow: 0 0 5px rgba($primary-color, 0.3);
+      }
+    }
+  }
+
+  button.btn.btn-gradient {
+    padding: 0.75rem;
+    font-size: 1rem;
+    background: linear-gradient(90deg, $primary-color, lighten($primary-color, 20%));
+    color: white;
+    border: none;
+    border-radius: $border-radius;
+    cursor: pointer;
+    transition: $transition;
+
+    &.loading {
+      opacity: 0.7;
+      cursor: not-allowed;
+      position: relative;
+
+      &::after {
+        content: '';
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        border: 2px solid white;
+        border-top-color: transparent;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin-left: 0.5rem;
+      }
+    }
+
+    &:hover:not(.loading) {
+      background: linear-gradient(90deg, darken($primary-color, 10%), $primary-color);
+      box-shadow: $card-shadow;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  }
+}
+
+// Responsive
+@media (max-width: 767px) {
+  .dang-ky-giang-vien-container {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+
+  .register-form-container {
+    flex-direction: column;
+  }
+
+  .group-info,
+  .register-form {
+    width: 100%;
+  }
+}
+
+@media (max-width: 576px) {
+  .dang-ky-giang-vien-container h2 {
+    font-size: 1.5rem;
+  }
+
+  .giang-vien-info h3 {
+    font-size: 1.25rem;
+  }
+
+  button.btn.btn-gradient {
+    padding: 0.6rem 1.5rem;
+    font-size: 0.9rem;
+  }
+}

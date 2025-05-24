@@ -1,0 +1,94 @@
+// D:\2025\CNPM\Doan\frontend\qldt\src\components\admin\diem\QLDiem.scss
+.ql-diem {
+  &.dark-mode {
+    background-color: #1a1a1a;
+    color: #ffffff;
+
+    .card {
+      background-color: #2c2c2c;
+      border-color: #444;
+    }
+
+    .modern-table {
+      background-color: #2c2c2c;
+      th, td {
+        border-color: #444;
+        color: #ffffff;
+      }
+    }
+
+    .modern-btn {
+      background-color: #007bff;
+      border-color: #007bff;
+      &:hover {
+        background-color: #0056b3;
+      }
+    }
+  }
+
+  .gradient-text {
+    background: linear-gradient(45deg, #007bff, #00d4ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: bold;
+  }
+
+  .card {
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .modern-table {
+    font-size: 0.9rem;
+    th, td {
+      vertical-align: middle;
+      padding: 12px;
+    }
+  }
+
+  .tabs {
+    .tab-button {
+      border-radius: 20px;
+      padding: 8px 16px;
+      &.active {
+        background-color: #007bff;
+        color: white;
+      }
+    }
+  }
+
+  .modern-btn {
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 0.9rem;
+  }
+
+  .modern-pagination {
+    margin-top: 1rem;
+    .page-item {
+      .page-link {
+        border-radius: 5px;
+        margin: 0 3px;
+        color: #007bff;
+        &.active {
+          background-color: #007bff;
+          color: white;
+        }
+      }
+    }
+  }
+
+  .modern-modal {
+    .modal-content {
+      border-radius: 10px;
+    }
+    .modal-header {
+      background-color: #f8f9fa;
+    }
+  }
+
+  .search-input {
+    max-width: 250px;
+    border-radius: 8px;
+  }
+}

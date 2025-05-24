@@ -1,0 +1,43 @@
+// D:\2025\CNPM\Doan\frontend\qldt\src\components\admin\thongbao\QLthongbao.scss
+.ql-thong-bao {
+  .gradient-text {
+    background: linear-gradient(45deg, #007bff, #00c4b4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: bold;
+  }
+
+  .card {
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .table {
+    th,
+    td {
+      vertical-align: middle;
+      text-align: center;
+    }
+
+    .status-chua_xem {
+      color: #dc3545;
+      font-weight: bold;
+    }
+
+    .status-da_xem {
+      color: #28a745;
+      font-weight: bold;
+    }
+  }
+
+  .form-control {
+    max-width: 300px;
+  }
+
+  .pagination {
+    .page-item.active .page-link {
+      background-color: #007bff;
+      border-color: #007bff;
+    }
+  }
+}

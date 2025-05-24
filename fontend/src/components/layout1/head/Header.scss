@@ -1,0 +1,412 @@
+  $primary-color: #00d4ff;
+  $secondary-color: #8e24aa;
+  $danger-color: #ff5252;
+  $success-color: #00e676;
+  $background-color: #f5f7fa;
+  $text-color: #1a1a1a;
+  $border-color: #e0e0e0;
+  $hover-color: darken($primary-color, 10%);
+  $shadow-color: rgba(0, 0, 0, 0.15);
+  $muted-color: #90a4ae;
+
+  $dark-background: #263238;
+  $dark-text: #eceff1;
+  $dark-border: #455a64;
+  $dark-card: #37474f;
+
+  $font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  $font-size-base: 16px;
+  $font-size-sm: 14px;
+  $font-size-lg: 18px;
+  $line-height: 1.6;
+
+  $spacing-unit: 8px;
+  $border-radius: 8px;
+  $border-radius-lg: 12px;
+  $transition-base: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  @mixin button-gradient {
+    background: linear-gradient(135deg, $primary-color, $secondary-color);
+    color: white;
+    border: none;
+    position: relative;
+    overflow: hidden;
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba($primary-color, 0.3);
+    }
+    &:disabled {
+      background: #b0bec5;
+      cursor: not-allowed;
+    }
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width 0.4s, height 0.4s;
+    }
+    &:active::after {
+      width: 200px;
+      height: 200px;
+    }
+  }
+
+  .header {
+    font-family: $font-family;
+    background: $background-color;
+    box-shadow: 0 2px 8px $shadow-color;
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+    transition: background 0.3s;
+
+    &.dark-mode {
+      background: $dark-background;
+      color: $dark-text;
+      .navbar {
+        background: $dark-card !important;
+      }
+      .nav-link, .dropdown-toggle {
+        color: $dark-text;
+      }
+      .dropdown-menu {
+        background: $dark-card;
+        border-color: $dark-border;
+      }
+      .gradient-text {
+        background: linear-gradient(135deg, #40c4ff, #f06292);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      .thong-bao-dropdown {
+        background: $dark-card;
+        border-color: $dark-border;
+      }
+      .modal-content {
+        background: $dark-card;
+        color: $dark-text;
+        border-color: $dark-border;
+      }
+    }
+
+    .modern-navbar {
+      padding: $spacing-unit * 2 $spacing-unit * 4;
+      background: $background-color !important;
+
+      .navbar-brand {
+        font-size: $font-size-lg;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+
+        &.gradient-text {
+          background: linear-gradient(135deg, $primary-color, $secondary-color);
+          -webkit-background-clip: text;
+          background-clip: text;
+          color: transparent;
+        }
+      }
+
+      .navbar-toggler {
+        border: none;
+        padding: $spacing-unit;
+        &:focus {
+          box-shadow: none;
+        }
+      }
+
+      .nav-link {
+        font-size: $font-size-base;
+        color: $text-color;
+        padding: $spacing-unit * 1.5 $spacing-unit * 2;
+        transition: $transition-base;
+        &:hover {
+          color: $primary-color;
+          transform: translateY(-1px);
+        }
+      }
+
+      .nav-item {
+        &.modern-dropdown {
+          .dropdown-toggle {
+            font-size: $font-size-base;
+            color: $text-color;
+            padding: $spacing-unit * 1.5 $spacing-unit * 2;
+            &:after {
+              margin-left: $spacing-unit;
+            }
+          }
+          .dropdown-menu {
+            border-radius: $border-radius;
+            box-shadow: 0 4px 16px $shadow-color;
+            background: $background-color;
+            border: none;
+            animation: slideIn 0.3s ease;
+            margin-top: $spacing-unit;
+            .dropdown-item {
+              font-size: $font-size-base;
+              padding: $spacing-unit * 1.5 $spacing-unit * 2;
+              color: $text-color;
+              transition: $transition-base;
+              &:hover {
+                background: lighten($primary-color, 45%);
+                color: $primary-color;
+              }
+              &.slide-in {
+                animation: slideIn 0.2s ease forwards;
+                animation-delay: calc(var(--index) * 0.05s);
+              }
+            }
+          }
+        }
+
+        &.user-info {
+          .dropdown-toggle {
+            display: flex;
+            align-items: center;
+            svg {
+              font-size: $font-size-base;
+            }
+          }
+          .user-info-details {
+            padding: $spacing-unit * 2;
+            font-size: $font-size-sm;
+            color: $text-color;
+            display: flex;
+            flex-direction: column;
+            gap: $spacing-unit;
+            span {
+              display: block;
+            }
+          }
+          .logout-button {
+            color: $danger-color;
+            display: flex;
+            align-items: center;
+            svg {
+              font-size: $font-size-base;
+            }
+          }
+        }
+
+        &.notification {
+          position: relative;
+          .nav-link {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            svg {
+              font-size: $font-size-lg;
+            }
+            .notification-badge {
+              position: absolute;
+              top: 0;
+              right: 0;
+              font-size: $font-size-sm;
+              padding: $spacing-unit * 0.5 $spacing-unit;
+              animation: pulse 2s infinite;
+            }
+          }
+          .thong-bao-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            width: 300px;
+            max-height: 400px;
+            overflow-y: auto;
+            background: $background-color;
+            border-radius: $border-radius;
+            box-shadow: 0 4px 16px $shadow-color;
+            padding: $spacing-unit * 2;
+            z-index: 1000;
+            animation: slideIn 0.3s ease;
+
+            .thong-bao-item {
+              padding: $spacing-unit * 1.5;
+              border-bottom: 1px solid $border-color;
+              font-size: $font-size-sm;
+              color: $text-color;
+              &:last-child {
+                border-bottom: none;
+              }
+              &.unread {
+                background: lighten($primary-color, 45%);
+                font-weight: 500;
+              }
+              p {
+                margin: 0;
+                word-break: break-word;
+              }
+              small {
+                color: $muted-color;
+                display: block;
+                margin-top: $spacing-unit * 0.5;
+              }
+              .thong-bao-actions {
+                margin-top: $spacing-unit;
+                display: flex;
+                gap: $spacing-unit;
+                button {
+                  padding: $spacing-unit $spacing-unit * 2;
+                  font-size: $font-size-sm;
+                  border-radius: $border-radius;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .error-message {
+      color: $danger-color;
+      background: lighten($danger-color, 35%);
+      padding: $spacing-unit;
+      border-radius: $border-radius;
+      margin: $spacing-unit * 2;
+      font-size: $font-size-sm;
+    }
+
+    .form-check {
+      display: flex;
+      align-items: center;
+      margin: 0;
+      .form-check-input {
+        margin-right: $spacing-unit;
+        border-radius: 4px;
+        &:checked {
+          background-color: $primary-color;
+          border-color: $primary-color;
+        }
+      }
+      .form-check-label {
+        font-size: $font-size-sm;
+        display: flex;
+        align-items: center;
+        svg {
+          font-size: $font-size-base;
+        }
+      }
+    }
+
+    .modern-modal {
+      .modal-dialog {
+        animation: zoomIn 0.3s ease;
+      }
+      .modal-content {
+        border-radius: $border-radius-lg;
+        box-shadow: 0 4px 16px $shadow-color;
+        background: $background-color;
+        border: none;
+      }
+      .modal-header {
+        background: linear-gradient(135deg, $primary-color, $secondary-color);
+        color: white;
+        border: none;
+        padding: $spacing-unit * 2;
+        .modal-title {
+          font-size: $font-size-lg;
+        }
+      }
+      .modal-body {
+        padding: $spacing-unit * 3;
+        font-size: $font-size-base;
+      }
+      .modal-footer {
+        padding: $spacing-unit * 2;
+        border: none;
+        .btn {
+          @include button-gradient;
+          padding: $spacing-unit * 1.5 $spacing-unit * 3;
+          &.btn-secondary {
+            background: $muted-color;
+            &:hover {
+              background: darken($muted-color, 10%);
+            }
+          }
+        }
+      }
+    }
+
+    .tooltip {
+      .tooltip-inner {
+        background: linear-gradient(135deg, $primary-color, $secondary-color);
+        color: white;
+        border-radius: $border-radius;
+        padding: $spacing-unit;
+        font-size: $font-size-sm;
+      }
+      &.bs-tooltip-end .tooltip-arrow::before {
+        border-right-color: $primary-color;
+      }
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes zoomIn {
+      from {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      50% {
+        transform: scale(1.2);
+        opacity: 0.7;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .modern-navbar {
+        padding: $spacing-unit * 2;
+      }
+      .nav-item {
+        &.modern-dropdown, &.user-info {
+          .dropdown-menu {
+            width: 100%;
+            left: 0;
+            right: 0;
+          }
+        }
+        &.notification {
+          .thong-bao-dropdown {
+            width: 100%;
+            left: 0;
+            right: 0;
+          }
+        }
+      }
+      .form-check {
+        margin: $spacing-unit * 2 0;
+      }
+    }
+  }

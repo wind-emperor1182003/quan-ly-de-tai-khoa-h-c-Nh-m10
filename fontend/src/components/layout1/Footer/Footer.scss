@@ -1,0 +1,357 @@
+//D:\2025\CNPM\Doan\frontend\src\components\layouy\Footer\Footer.scss
+$primary-color: #00d4ff;
+$secondary-color: #8e24aa;
+$danger-color: #ff5252;
+$success-color: #00e676;
+$background-color: #f5f7fa;
+$text-color: #1a1a1a;
+$border-color: #e0e0e0;
+$hover-color: darken($primary-color, 10%);
+$shadow-color: rgba(0, 0, 0, 0.15);
+$muted-color: #90a4ae;
+
+$dark-background: #263238;
+$dark-text: #eceff1;
+$dark-border: #455a64;
+$dark-card: #37474f;
+
+$font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+$font-size-base: 16px;
+$font-size-sm: 14px;
+$font-size-lg: 18px;
+$line-height: 1.6;
+
+$spacing-unit: 8px;
+$border-radius: 8px;
+$border-radius-lg: 12px;
+$transition-base: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+@mixin button-gradient {
+  background: linear-gradient(135deg, $primary-color, $secondary-color);
+  color: white;
+  border: none;
+  position: relative;
+  overflow: hidden;
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba($primary-color, 0.3);
+  }
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.4s, height 0.4s;
+  }
+  &:active::after {
+    width: 200px;
+    height: 200px;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.footer {
+  background: linear-gradient(135deg, $primary-color, $secondary-color);
+  box-shadow: 0 -4px 6px $shadow-color;
+  font-family: $font-family;
+  padding: $spacing-unit * 5 $spacing-unit * 2;
+
+  &.dark-mode {
+    background: $dark-background;
+    color: $dark-text;
+    .gradient-text {
+      background: linear-gradient(135deg, #40c4ff, #f06292);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .gradient-link {
+      color: $dark-text;
+      &:hover {
+        color: $primary-color;
+      }
+    }
+    .gradient-icon {
+      background: linear-gradient(135deg, #40c4ff, #f06292);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    p, h5 {
+      color: $dark-text;
+    }
+  }
+
+  .container-fluid {
+    padding: 0 $spacing-unit * 2;
+
+    @media (min-width: 768px) {
+      padding: 0 $spacing-unit * 7.5;
+    }
+
+    @media (max-width: 576px) {
+      padding: 0 $spacing-unit * 1.25;
+    }
+
+    .row {
+      margin: 0;
+
+      .col-lg-4, .col-md-6, .col-md-12 {
+        &.mb-5 {
+          .navbar-brand {
+            font-size: 40px;
+            line-height: 40px;
+
+            h2.gradient-text {
+              font-size: 28px;
+              font-weight: 700;
+              background: linear-gradient(135deg, $primary-color, $secondary-color);
+              -webkit-background-clip: text;
+              -webkit-text-fill-color: transparent;
+              transition: $transition-base;
+              &:hover {
+                opacity: 0.9;
+              }
+            }
+          }
+
+          p {
+            font-size: $font-size-base;
+            line-height: $line-height;
+            color: $dark-text;
+
+            @media (max-width: 576px) {
+              font-size: $font-size-sm;
+            }
+          }
+
+          .d-flex.justify-content-start {
+            .btn-outline-gradient {
+              border: 1px solid $border-color;
+              background: $background-color;
+              color: $primary-color;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              width: 48px; // Increased size for better visibility
+              height: 48px;
+              border-radius: 50%;
+              transition: $transition-base;
+              position: relative;
+              overflow: hidden;
+              margin-right: $spacing-unit * 1.5;
+
+              i {
+                font-size: $font-size-lg; // Larger icons
+                background: linear-gradient(135deg, $primary-color, $secondary-color);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+              }
+
+              &:hover {
+                transform: scale(1.1);
+                animation: pulse 1s infinite;
+                background: linear-gradient(135deg, $secondary-color, $primary-color);
+                border-color: $primary-color;
+                i {
+                  background: $dark-text;
+                  -webkit-background-clip: text;
+                  -webkit-text-fill-color: transparent;
+                }
+              }
+
+              &.dark-mode {
+                background: $dark-card;
+                border-color: $dark-border;
+                i {
+                  background: linear-gradient(135deg, #40c4ff, #f06292);
+                  -webkit-background-clip: text;
+                  -webkit-text-fill-color: transparent;
+                }
+              }
+            }
+          }
+
+          .row {
+            .col-6 {
+              h3.gradient-text {
+                font-size: $font-size-lg;
+                font-weight: 700;
+                background: linear-gradient(135deg, $primary-color, $secondary-color);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                transition: $transition-base;
+
+                &:hover {
+                  opacity: 0.9;
+                }
+
+                @media (max-width: 576px) {
+                  font-size: $font-size-base;
+                }
+              }
+
+              .d-flex.flex-column {
+                .gradient-link {
+                  color: $dark-text;
+                  text-decoration: none;
+                  font-size: $font-size-base;
+                  position: relative;
+                  transition: $transition-base;
+                  display: flex;
+                  align-items: center;
+
+                  &:hover {
+                    color: $hover-color;
+                    padding-left: $spacing-unit;
+                    &:after {
+                      content: '';
+                      position: absolute;
+                      bottom: -2px;
+                      left: 0;
+                      width: 100%;
+                      height: 2px;
+                      background: linear-gradient(135deg, $primary-color, $secondary-color);
+                      animation: slideIn 0.3s forwards;
+                    }
+                  }
+
+                  i {
+                    margin-right: $spacing-unit;
+                  }
+
+                  @media (max-width: 576px) {
+                    font-size: $font-size-sm;
+                  }
+                }
+              }
+            }
+          }
+
+          .d-flex.mb-3 {
+            h4.gradient-icon {
+              font-size: $font-size-lg;
+              width: 30px;
+              text-align: center;
+              background: linear-gradient(135deg, $primary-color, $secondary-color);
+              -webkit-background-clip: text;
+              -webkit-text-fill-color: transparent;
+            }
+
+            .pl-3 {
+              h5 {
+                font-size: $font-size-base;
+                margin-bottom: $spacing-unit * 0.5;
+                color: $dark-text;
+              }
+
+              p {
+                font-size: $font-size-sm;
+                margin: 0;
+                color: $muted-color;
+              }
+
+              @media (max-width: 576px) {
+                h5 {
+                  font-size: $font-size-sm;
+                }
+                p {
+                  font-size: 12px;
+                }
+              }
+            }
+          }
+
+          h3.gradient-text {
+            font-size: $font-size-lg;
+            font-weight: 700;
+            background: linear-gradient(135deg, $primary-color, $secondary-color);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transition: $transition-base;
+
+            &:hover {
+              opacity: 0.9;
+            }
+
+            @media (max-width: 576px) {
+              font-size: $font-size-base;
+            }
+          }
+        }
+      }
+
+      .bottom-bar {
+        border-top: 1px solid $border-color;
+
+        .d-flex {
+          p {
+            font-size: $font-size-sm;
+            color: $dark-text;
+
+            a.gradient-text {
+              background: linear-gradient(135deg, $primary-color, $secondary-color);
+              -webkit-background-clip: text;
+              -webkit-text-fill-color: transparent;
+              font-weight: 700;
+
+              &:hover {
+                background: linear-gradient(135deg, $secondary-color, $primary-color);
+                -webkit-background-clip: text;
+              }
+            }
+
+            @media (max-width: 576px) {
+              font-size: 12px;
+              text-align: center;
+            }
+          }
+
+          .gradient-link {
+            color: $dark-text;
+            text-decoration: none;
+            font-size: $font-size-sm;
+            transition: $transition-base;
+
+            &:hover {
+              color: $hover-color;
+            }
+
+            @media (max-width: 576px) {
+              font-size: 12px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

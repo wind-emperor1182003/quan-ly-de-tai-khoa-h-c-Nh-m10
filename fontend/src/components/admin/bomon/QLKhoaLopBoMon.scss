@@ -1,0 +1,159 @@
+
+// D:\2025\CNPM\Doan\frontend\qldt\src\components\admin\bomon\QLKhoaLopBoMon.scss
+.ql-khoa-lop-bomon {
+  .gradient-text {
+    background: linear-gradient(45deg, #007bff, #00cc99);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: bold;
+  }
+
+  .modern-card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .search-wrapper {
+    position: relative;
+    width: 300px;
+
+    .search-icon {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #6c757d;
+    }
+
+    .search-input {
+      padding-left: 35px;
+      border-radius: 20px;
+      border: 1px solid #ced4da;
+      transition: all 0.3s;
+
+      &:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+      }
+    }
+  }
+
+  .add-btn {
+    background: linear-gradient(45deg, #007bff, #00cc99);
+    border: none;
+    transition: all 0.3s;
+
+    &:hover {
+      background: linear-gradient(45deg, #0056b3, #009966);
+    }
+  }
+
+  .modern-table {
+    border-radius: 8px;
+    overflow: hidden;
+
+    .modern-table-header {
+      background: linear-gradient(45deg, #007bff, #00cc99);
+      color: white;
+
+      th {
+        font-weight: 600;
+      }
+    }
+
+    tbody tr {
+      transition: background 0.2s;
+
+      &:hover {
+        background: #f8fafc;
+      }
+    }
+  }
+
+  .action-btn {
+    border: none;
+    transition: all 0.3s;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+
+  .modern-tabs {
+    border-bottom: 2px solid #007bff;
+
+    .nav-link {
+      color: #6c757d;
+      font-weight: 500;
+      transition: all 0.3s;
+
+      &.active {
+        background: linear-gradient(45deg, #007bff, #00cc99);
+        color: white;
+        border-radius: 5px 5px 0 0;
+      }
+
+      &:hover {
+        color: #007bff;
+      }
+    }
+  }
+
+  .modern-pagination {
+    .page-item {
+      .page-link {
+        border: none;
+        color: #007bff;
+        margin: 0 5px;
+        border-radius: 50%;
+        transition: all 0.3s;
+
+        &:hover {
+          background: #007bff;
+          color: white;
+        }
+      }
+
+      &.active .page-link {
+        background: linear-gradient(45deg, #007bff, #00cc99);
+        color: white;
+      }
+    }
+  }
+}
+
+.modal-ql-khoa-lop-bomon {
+  .modal-header-modern {
+    background: linear-gradient(45deg, #007bff, #00cc99);
+    color: white;
+    border-radius: 10px 10px 0 0;
+
+    .btn-close {
+      filter: invert(1);
+    }
+  }
+
+  .modal-content {
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  .cancel-btn {
+    background: #6c757d;
+    border: none;
+
+    &:hover {
+      background: #5a6268;
+    }
+  }
+
+  .submit-btn {
+    background: linear-gradient(45deg, #007bff, #00cc99);
+    border: none;
+
+    &:hover {
+      background: linear-gradient(45deg, #0056b3, #009966);
+    }
+  }
+}

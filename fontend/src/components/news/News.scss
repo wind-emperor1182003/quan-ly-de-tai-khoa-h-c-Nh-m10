@@ -1,0 +1,358 @@
+$primary-color: #00d4ff;
+$secondary-color: #8e24aa;
+$danger-color: #ff5252;
+$success-color: #00e676;
+$background-color: #f5f7fa;
+$text-color: #1a1a1a;
+$border-color: #e0e0e0;
+$hover-color: darken($primary-color, 10%);
+$shadow-color: rgba(0, 0, 0, 0.15);
+$muted-color: #90a4ae;
+
+$dark-background: #263238;
+$dark-text: #eceff1;
+$dark-border: #455a64;
+$dark-card: #37474f;
+
+$font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+$font-size-base: 16px;
+$font-size-sm: 14px;
+$font-size-lg: 18px;
+$line-height: 1.6;
+
+$spacing-unit: 8px;
+$border-radius: 8px;
+$border-radius-lg: 12px;
+$transition-base: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+@mixin button-gradient {
+  background: linear-gradient(135deg, $primary-color, $secondary-color);
+  color: white;
+  border: none;
+  position: relative;
+  overflow: hidden;
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba($primary-color, 0.3);
+  }
+  &:disabled {
+    background: #b0bec5;
+    cursor: not-allowed;
+  }
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.4s, height 0.4s;
+  }
+  &:active::after {
+    width: 200px;
+    height: 200px;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.news-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  font-family: $font-family;
+  background: $background-color;
+
+  &.dark-mode {
+    background: $dark-background;
+    .news-container {
+      .section-title {
+        color: $dark-text;
+        background: linear-gradient(135deg, #40c4ff, #f06292);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      .news-grid {
+        .news-item {
+          .news-card {
+            background: $dark-card;
+            border-color: $dark-border;
+            h3 {
+              color: $dark-text;
+            }
+            .news-date, .news-content {
+              color: $muted-color;
+            }
+            .category-tag {
+              &.announcements {
+                background: darken($primary-color, 20%);
+              }
+              &.events {
+                background: darken($secondary-color, 20%);
+              }
+            }
+          }
+        }
+      }
+      .filter-button {
+        background: $dark-card;
+        color: $dark-text;
+        border-color: $dark-border;
+        &.active {
+          @include button-gradient;
+          color: $dark-text;
+        }
+      }
+      .pagination-button {
+        background: $dark-card;
+        color: $dark-text;
+        border-color: $dark-border;
+        &.active {
+          background: $primary-color;
+          color: $dark-text;
+        }
+      }
+    }
+  }
+
+  .news-container {
+    flex: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: $spacing-unit * 5 $spacing-unit * 2;
+
+    .section-title {
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: $spacing-unit * 5;
+      text-align: center;
+      color: $primary-color;
+      background: linear-gradient(135deg, $primary-color, $secondary-color);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .filter-bar {
+      display: flex;
+      justify-content: center;
+      margin-bottom: $spacing-unit * 4;
+      flex-wrap: wrap;
+      gap: $spacing-unit;
+
+      .filter-button {
+        background: $background-color;
+        border: 1px solid $border-color;
+        border-radius: $border-radius-lg;
+        padding: $spacing-unit * 1.5 $spacing-unit * 3;
+        font-size: $font-size-base;
+        color: $text-color;
+        transition: $transition-base;
+        cursor: pointer;
+
+        &:hover {
+          background: $hover-color;
+          color: $dark-text;
+        }
+
+        &.active {
+          @include button-gradient;
+          color: $dark-text;
+        }
+
+        &:disabled {
+          background: #b0bec5;
+          cursor: not-allowed;
+        }
+      }
+    }
+
+    .news-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: $spacing-unit * 3;
+
+      .news-item {
+        .news-card {
+          background: #fff;
+          border: 1px solid $border-color;
+          border-radius: $border-radius;
+          padding: $spacing-unit * 3;
+          box-shadow: 0 4px 10px $shadow-color;
+          transition: $transition-base;
+
+          &:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 16px $shadow-color;
+          }
+
+          .category-tag {
+            display: inline-block;
+            font-size: $font-size-sm;
+            font-weight: 600;
+            padding: $spacing-unit * 0.5 $spacing-unit;
+            border-radius: $border-radius;
+            margin-bottom: $spacing-unit;
+            color: $dark-text;
+
+            &.announcements {
+              background: $primary-color;
+            }
+
+            &.events {
+              background: $secondary-color;
+            }
+          }
+
+          h3 {
+            font-size: $font-size-lg;
+            font-weight: 600;
+            color: $text-color;
+            margin-bottom: $spacing-unit;
+          }
+
+          .news-date {
+            font-size: $font-size-sm;
+            color: $muted-color;
+            margin-bottom: $spacing-unit;
+          }
+
+          .news-content {
+            font-size: $font-size-base;
+            line-height: $line-height;
+            color: $text-color;
+            margin-bottom: $spacing-unit * 2;
+          }
+
+          .read-more {
+            @include button-gradient;
+            padding: $spacing-unit * 1.5 $spacing-unit * 3;
+            font-size: $font-size-base;
+            border-radius: $border-radius-lg;
+            display: inline-block;
+          }
+        }
+      }
+
+      .no-results {
+        font-size: $font-size-base;
+        color: $muted-color;
+        text-align: center;
+        grid-column: 1 / -1;
+      }
+    }
+
+    .pagination {
+      display: flex;
+      justify-content: center;
+      margin-top: $spacing-unit * 5;
+      gap: $spacing-unit;
+
+      .pagination-button {
+        background: $background-color;
+        border: 1px solid $border-color;
+        border-radius: $border-radius;
+        padding: $spacing-unit * 1.5 $spacing-unit * 2;
+        font-size: $font-size-base;
+        color: $text-color;
+        transition: $transition-base;
+        cursor: pointer;
+
+        &:hover {
+          background: $hover-color;
+          color: $dark-text;
+        }
+
+        &.active {
+          background: $primary-color;
+          color: $dark-text;
+          border-color: $primary-color;
+        }
+
+        &:disabled {
+          background: #b0bec5;
+          cursor: not-allowed;
+        }
+
+        i {
+          font-size: $font-size-sm;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    .news-container {
+      padding: $spacing-unit * 3 $spacing-unit * 1.5;
+
+      .section-title {
+        font-size: 28px;
+      }
+
+      .filter-bar {
+        .filter-button {
+          padding: $spacing-unit $spacing-unit * 2;
+          font-size: $font-size-sm;
+        }
+      }
+
+      .news-grid {
+        grid-template-columns: 1fr;
+
+        .news-item {
+          .news-card {
+            padding: $spacing-unit * 2;
+
+            h3 {
+              font-size: $font-size-base;
+            }
+
+            .news-content {
+              font-size: $font-size-sm;
+            }
+
+            .read-more {
+              padding: $spacing-unit $spacing-unit * 2;
+              font-size: $font-size-sm;
+            }
+          }
+        }
+      }
+
+      .pagination {
+        .pagination-button {
+          padding: $spacing-unit $spacing-unit * 1.5;
+          font-size: $font-size-sm;
+        }
+      }
+    }
+  }
+}

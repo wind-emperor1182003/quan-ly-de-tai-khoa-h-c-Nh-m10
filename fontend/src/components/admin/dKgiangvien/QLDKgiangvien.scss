@@ -1,0 +1,260 @@
+// D:\2025\CNPM\Doan\frontend\qldt\src\components\admin\dKgiangvien\QLDKgiangvien.scss
+
+// Variables
+$primary-gradient: linear-gradient(45deg, #007bff, #00ff88);
+$primary-gradient-hover: linear-gradient(45deg, #0056b3, #00cc66);
+$card-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+$border-radius: 8px;
+$transition: all 0.3s ease;
+$font-size-base: 16px;
+$white: #fff;
+$gray-light: #f8f9fa;
+$gray-hover: #f1f1f1;
+$success: #28a745;
+$danger: #dc3545;
+$modal-z-index: 1055;
+
+// Mixins
+@mixin button-styles($bg, $hover-bg) {
+  background: $bg;
+  border: none;
+  border-radius: $border-radius;
+  transition: $transition;
+  color: $white;
+  pointer-events: auto;
+
+  &:hover {
+    background: $hover-bg;
+  }
+}
+
+// Base styles
+.ql-dk-giang-vien {
+  font-size: $font-size-base;
+  padding: 20px 0;
+
+  // Heading
+  .gradient-text {
+    background: $primary-gradient;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-weight: 700;
+    margin-bottom: 24px;
+    text-align: center;
+  }
+
+  // Card
+  .card {
+    border: none;
+    border-radius: $border-radius;
+    box-shadow: $card-shadow;
+    transition: transform $transition, box-shadow $transition;
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .card-body {
+      padding: 24px;
+    }
+  }
+
+  // Table
+  .table {
+    background: $white;
+    border-radius: $border-radius;
+    overflow-x: auto;
+    margin-bottom: 0;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+
+    th,
+    td {
+      vertical-align: middle;
+      padding: 12px 16px;
+      white-space: nowrap;
+      text-align: center;
+    }
+
+    th {
+      background: $gray-light;
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+      color: #495057;
+    }
+
+    tbody tr {
+      transition: background $transition;
+
+      &:hover {
+        background: $gray-hover;
+      }
+    }
+
+    // Status badges
+    td[class*="status-"] {
+      font-weight: 500;
+
+      &.status-hop_le {
+        color: $success;
+      }
+      &.status-khong_hop_le {
+        color: $danger;
+      }
+      &.status-cho_duyet {
+        color: #007bff;
+      }
+      &.status-da_duyet {
+        color: $success;
+      }
+      &.status-tu_choi {
+        color: $danger;
+      }
+    }
+  }
+
+  // Pagination
+  .pagination {
+    margin-top: 24px;
+    justify-content: center;
+
+    .page-item {
+      .page-link {
+        border-radius: $border-radius;
+        margin: 0 4px;
+        transition: $transition;
+      }
+
+      &.active .page-link {
+        background: #007bff;
+        border-color: #007bff;
+        color: $white;
+      }
+
+      &:not(.active) .page-link:hover {
+        background: $gray-light;
+      }
+    }
+  }
+
+  // Form controls
+  .form-control {
+    border-radius: $border-radius;
+    box-shadow: none;
+    transition: border-color $transition, box-shadow $transition;
+
+    &:focus {
+      border-color: #007bff;
+      box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+    }
+  }
+
+  // Buttons
+  .btn {
+    @include button-styles($primary-gradient, $primary-gradient-hover);
+
+    &.btn-success {
+      @include button-styles($success, darken($success, 10%));
+    }
+
+    &.btn-danger {
+      @include button-styles($danger, darken($danger, 10%));
+    }
+
+    &.btn-secondary {
+      background: #6c757d;
+      border: none;
+
+      &:hover {
+        background: darken(#6c757d, 10%);
+      }
+    }
+  }
+
+  // Modal
+  .modal {
+    z-index: $modal-z-index;
+
+    .modal-content {
+      border-radius: $border-radius;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      z-index: $modal-z-index + 5;
+    }
+
+    .modal-header {
+      background: $gray-light;
+      border-bottom: none;
+      padding: 16px 24px;
+
+      .modal-title {
+        font-weight: 600;
+      }
+    }
+
+    .modal-body {
+      padding: 24px;
+    }
+
+    .modal-footer {
+      border-top: none;
+      padding: 16px 24px;
+    }
+  }
+
+  // Responsive
+  @media (max-width: 992px) {
+    .table {
+      font-size: 0.9rem;
+
+      th,
+      td {
+        padding: 10px;
+      }
+    }
+
+    .card-body {
+      padding: 16px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+
+    .gradient-text {
+      font-size: 1.5rem;
+    }
+
+    .table {
+      th,
+      td {
+        padding: 8px;
+        font-size: 0.85rem;
+      }
+    }
+
+    .d-flex {
+      flex-direction: column;
+      gap: 12px;
+
+      .form-control {
+        width: 100%;
+      }
+    }
+  }
+
+  @media (max-width: 576px) {
+    .pagination {
+      .page-link {
+        padding: 6px 12px;
+        font-size: 0.85rem;
+      }
+    }
+
+    .btn {
+      font-size: 0.85rem;
+      padding: 8px 12px;
+    }
+  }
+}

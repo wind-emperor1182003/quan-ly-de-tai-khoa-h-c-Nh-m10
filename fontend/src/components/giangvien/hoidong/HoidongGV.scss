@@ -1,0 +1,58 @@
+.hoidong-gv-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+  }
+
+  .table {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    th, td {
+      vertical-align: middle;
+      text-align: center;
+    }
+
+    th {
+      background-color: #007bff;
+      color: white;
+    }
+
+    .btn {
+      margin: 0 5px;
+    }
+  }
+
+  .alert {
+    text-align: center;
+  }
+
+  &.dark-mode {
+    background-color: #222;
+    color: #fff;
+
+    h2 {
+      color: #fff;
+    }
+
+    .table {
+      background-color: #333;
+      color: #fff;
+
+      th {
+        background-color: #0056b3;
+      }
+    }
+
+    .alert {
+      background-color: #444;
+      color: #fff;
+    }
+  }
+}
