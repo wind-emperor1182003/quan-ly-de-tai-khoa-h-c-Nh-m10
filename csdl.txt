@@ -1,0 +1,285 @@
+USE [qldt]
+GO
+
+-- 1. Tạo bảng NguoiDung
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[NguoiDung](
+	[id_nguoi_dung] [int] IDENTITY(1,1) NOT NULL,
+	[ma_so] [varchar](20) NOT NULL,
+	[mat_khau] [varchar](255) NOT NULL,
+	[ho_ten] [nvarchar](100) NOT NULL,
+	[vai_tro] [varchar](20) NOT NULL,
+	[email] [varchar](100) NULL,
+ CONSTRAINT [PK_NguoiDung_Id] PRIMARY KEY CLUSTERED 
+(
+	[id_nguoi_dung] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY],
+ CONSTRAINT [UQ_NguoiDung_MaSo] UNIQUE NONCLUSTERED 
+(
+	[ma_so] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[NguoiDung]  WITH CHECK ADD CONSTRAINT [CK_NguoiDung_VaiTro] CHECK (([vai_tro]='hoi_dong' OR [vai_tro]='giang_vien' OR [vai_tro]='sinh_vien'))
+GO
+
+-- 2. Tạo bảng LinhVuc
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[LinhVuc](
+	[id_linh_vuc] [int] IDENTITY(1,1) NOT NULL,
+	[ten_linh_vuc] [nvarchar](100) NOT NULL,
+ CONSTRAINT [PK_LinhVuc_Id] PRIMARY KEY CLUSTERED 
+(
+	[id_linh_vuc] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+-- 3. Tạo bảng DeTai
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[DeTai](
+	[id_de_tai] [int] IDENTITY(1,1) NOT NULL,
+	[ten_de_tai] [nvarchar](255) NOT NULL,
+	[mo_ta] [text] NULL,
+	[id_linh_vuc] [int] NOT NULL,
+	[trang_thai_de_tai] [varchar](20) NOT NULL,
+	[ngay_dang_ky] [datetime] NULL,
+	[ngay_het_han] [date] NULL,
+ CONSTRAINT [PK_DeTai_Id] PRIMARY KEY CLUSTERED 
+(
+	[id_de_tai] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[DeTai] ADD  DEFAULT ('draft') FOR [trang_thai_de_tai]
+GO
+ALTER TABLE [dbo].[DeTai] ADD  DEFAULT (GETDATE()) FOR [ngay_dang_ky]
+GO
+ALTER TABLE [dbo].[DeTai]  WITH CHECK ADD  CONSTRAINT [FK_DeTai_IdLinhVuc_LinhVuc_Id] FOREIGN KEY([id_linh_vuc])
+REFERENCES [dbo].[LinhVuc] ([id_linh_vuc])
+GO
+ALTER TABLE [dbo].[DeTai] CHECK CONSTRAINT [FK_DeTai_IdLinhVuc_LinhVuc_Id]
+GO
+ALTER TABLE [dbo].[DeTai]  WITH CHECK ADD CONSTRAINT [CK_DeTai_TrangThai] CHECK (([trang_thai_de_tai]='completed' OR [trang_thai_de_tai]='in_progress' OR [trang_thai_de_tai]='approved' OR [trang_thai_de_tai]='draft'))
+GO
+
+-- 4. Tạo bảng HoiDongBaoVe
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[HoiDongBaoVe](
+	[id_hoi_dong] [int] IDENTITY(1,1) NOT NULL,
+	[ten_hoi_dong] [nvarchar](255) NOT NULL,
+ CONSTRAINT [PK_HoiDongBaoVe_Id] PRIMARY KEY CLUSTERED 
+(
+	[id_hoi_dong] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+-- 5. Tạo bảng LichBaoVe
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[LichBaoVe](
+	[id_lich_bao_ve] [int] IDENTITY(1,1) NOT NULL,
+	[id_de_tai] [int] NOT NULL,
+	[id_hoi_dong] [int] NOT NULL,
+	[thoi_gian] [datetime] NOT NULL,
+	[dia_diem] [nvarchar](255) NOT NULL,
+	[trang_thai_lich] [varchar](20) NOT NULL,
+ CONSTRAINT [PK_LichBaoVe_Id] PRIMARY KEY CLUSTERED 
+(
+	[id_lich_bao_ve] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[LichBaoVe] ADD  DEFAULT ('pending') FOR [trang_thai_lich]
+GO
+ALTER TABLE [dbo].[LichBaoVe]  WITH CHECK ADD  CONSTRAINT [FK_LichBaoVe_IdDeTai_DeTai_Id] FOREIGN KEY([id_de_tai])
+REFERENCES [dbo].[DeTai] ([id_de_tai])
+GO
+ALTER TABLE [dbo].[LichBaoVe] CHECK CONSTRAINT [FK_LichBaoVe_IdDeTai_DeTai_Id]
+GO
+ALTER TABLE [dbo].[LichBaoVe]  WITH CHECK ADD  CONSTRAINT [FK_LichBaoVe_IdHoiDong_HoiDongBaoVe_Id] FOREIGN KEY([id_hoi_dong])
+REFERENCES [dbo].[HoiDongBaoVe] ([id_hoi_dong])
+GO
+ALTER TABLE [dbo].[LichBaoVe] CHECK CONSTRAINT [FK_LichBaoVe_IdHoiDong_HoiDongBaoVe_Id]
+GO
+ALTER TABLE [dbo].[LichBaoVe]  WITH CHECK ADD CONSTRAINT [CK_LichBaoVe_TrangThai] CHECK (([trang_thai_lich]='completed' OR [trang_thai_lich]='confirmed' OR [trang_thai_lich]='pending'))
+GO
+
+-- 6. Tạo bảng DiemPhanBien
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[DiemPhanBien](
+	[id_diem_phan_bien] [int] IDENTITY(1,1) NOT NULL,
+	[id_lich_bao_ve] [int] NOT NULL,
+	[ma_giang_vien] [varchar](20) NOT NULL,
+	[diem] [float] NOT NULL,
+	[nhan_xet] [text] NULL,
+ CONSTRAINT [PK_DiemPhanBien_Id] PRIMARY KEY CLUSTERED 
+(
+	[id_diem_phan_bien] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[DiemPhanBien]  WITH CHECK ADD  CONSTRAINT [FK_DiemPhanBien_IdLichBaoVe_LichBaoVe_Id] FOREIGN KEY([id_lich_bao_ve])
+REFERENCES [dbo].[LichBaoVe] ([id_lich_bao_ve])
+GO
+ALTER TABLE [dbo].[DiemPhanBien] CHECK CONSTRAINT [FK_DiemPhanBien_IdLichBaoVe_LichBaoVe_Id]
+GO
+ALTER TABLE [dbo].[DiemPhanBien]  WITH CHECK ADD  CONSTRAINT [FK_DiemPhanBien_MaGiangVien_NguoiDung_MaSo] FOREIGN KEY([ma_giang_vien])
+REFERENCES [dbo].[NguoiDung] ([ma_so])
+GO
+ALTER TABLE [dbo].[DiemPhanBien] CHECK CONSTRAINT [FK_DiemPhanBien_MaGiangVien_NguoiDung_MaSo]
+GO
+ALTER TABLE [dbo].[DiemPhanBien]  WITH CHECK ADD CONSTRAINT [CK_DiemPhanBien_Diem] CHECK (([diem]>=(0) AND [diem]<=(10)))
+GO
+
+-- 7. Tạo bảng GiangVien
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[GiangVien](
+	[ma_giang_vien] [varchar](20) NOT NULL,
+	[chuc_danh] [nvarchar](100) NULL,
+	[khoa] [nvarchar](100) NULL,
+ CONSTRAINT [PK_GiangVien_Ma] PRIMARY KEY CLUSTERED 
+(
+	[ma_giang_vien] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[GiangVien]  WITH CHECK ADD CONSTRAINT [FK_GiangVien_MaGiangVien_NguoiDung_MaSo] FOREIGN KEY([ma_giang_vien])
+REFERENCES [dbo].[NguoiDung] ([ma_so])
+GO
+ALTER TABLE [dbo].[GiangVien] CHECK CONSTRAINT [FK_GiangVien_MaGiangVien_NguoiDung_MaSo]
+GO
+
+-- 8. Tạo bảng QuanLyHoiDong
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[QuanLyHoiDong](
+	[id_quan_ly_hoi_dong] [int] IDENTITY(1,1) NOT NULL,
+	[ma_so] [varchar](20) NOT NULL,
+	[khoa] [nvarchar](100) NULL,
+	[chuc_vu] [nvarchar](100) NULL,
+ CONSTRAINT [PK_QuanLyHoiDong_Id] PRIMARY KEY CLUSTERED 
+(
+	[id_quan_ly_hoi_dong] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY],
+ CONSTRAINT [UQ_QuanLyHoiDong_MaSo] UNIQUE NONCLUSTERED 
+(
+	[ma_so] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[QuanLyHoiDong]  WITH CHECK ADD CONSTRAINT [FK_QuanLyHoiDong_MaSo_NguoiDung_MaSo] FOREIGN KEY([ma_so])
+REFERENCES [dbo].[NguoiDung] ([ma_so])
+ON UPDATE CASCADE
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[QuanLyHoiDong] CHECK CONSTRAINT [FK_QuanLyHoiDong_MaSo_NguoiDung_MaSo]
+GO
+
+-- 9. Tạo bảng SinhVien
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[SinhVien](
+	[ma_sinh_vien] [varchar](20) NOT NULL,
+	[khoa] [nvarchar](100) NULL,
+	[lop] [nvarchar](50) NULL,
+ CONSTRAINT [PK_SinhVien_Ma] PRIMARY KEY CLUSTERED 
+(
+	[ma_sinh_vien] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[SinhVien]  WITH CHECK ADD CONSTRAINT [FK_SinhVien_MaSinhVien_NguoiDung_MaSo] FOREIGN KEY([ma_sinh_vien])
+REFERENCES [dbo].[NguoiDung] ([ma_so])
+GO
+ALTER TABLE [dbo].[SinhVien] CHECK CONSTRAINT [FK_SinhVien_MaSinhVien_NguoiDung_MaSo]
+GO
+
+-- 10. Tạo bảng NhomSinhVienDeTai
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[NhomSinhVienDeTai](
+	[id_de_tai] [int] NOT NULL,
+	[ma_sinh_vien] [varchar](20) NOT NULL,
+	[ma_giang_vien] [varchar](20) NOT NULL,
+	[la_truong_nhom] [bit] NULL,
+ CONSTRAINT [PK_NhomSinhVienDeTai_Id] PRIMARY KEY CLUSTERED 
+(
+	[id_de_tai] ASC,
+	[ma_sinh_vien] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[NhomSinhVienDeTai] ADD  DEFAULT ((0)) FOR [la_truong_nhom]
+GO
+ALTER TABLE [dbo].[NhomSinhVienDeTai]  WITH CHECK ADD  CONSTRAINT [FK_NhomSinhVienDeTai_IdDeTai_DeTai_Id] FOREIGN KEY([id_de_tai])
+REFERENCES [dbo].[DeTai] ([id_de_tai])
+GO
+ALTER TABLE [dbo].[NhomSinhVienDeTai] CHECK CONSTRAINT [FK_NhomSinhVienDeTai_IdDeTai_DeTai_Id]
+GO
+ALTER TABLE [dbo].[NhomSinhVienDeTai]  WITH CHECK ADD  CONSTRAINT [FK_NhomSinhVienDeTai_MaSinhVien_NguoiDung_MaSo] FOREIGN KEY([ma_sinh_vien])
+REFERENCES [dbo].[NguoiDung] ([ma_so])
+GO
+ALTER TABLE [dbo].[NhomSinhVienDeTai] CHECK CONSTRAINT [FK_NhomSinhVienDeTai_MaSinhVien_NguoiDung_MaSo]
+GO
+ALTER TABLE [dbo].[NhomSinhVienDeTai]  WITH CHECK ADD  CONSTRAINT [FK_NhomSinhVienDeTai_MaGiangVien_NguoiDung_MaSo] FOREIGN KEY([ma_giang_vien])
+REFERENCES [dbo].[NguoiDung] ([ma_so])
+GO
+ALTER TABLE [dbo].[NhomSinhVienDeTai] CHECK CONSTRAINT [FK_NhomSinhVienDeTai_MaGiangVien_NguoiDung_MaSo]
+GO
+
+-- 11. Tạo bảng ThanhVienHoiDong
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ThanhVienHoiDong](
+	[id_hoi_dong] [int] NOT NULL,
+	[ma_giang_vien] [varchar](20) NOT NULL,
+	[vai_tro] [varchar](20) NOT NULL,
+ CONSTRAINT [PK_ThanhVienHoiDong_Id] PRIMARY KEY CLUSTERED 
+(
+	[id_hoi_dong] ASC,
+	[ma_giang_vien] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[ThanhVienHoiDong]  WITH CHECK ADD  CONSTRAINT [FK_ThanhVienHoiDong_IdHoiDong_HoiDongBaoVe_Id] FOREIGN KEY([id_hoi_dong])
+REFERENCES [dbo].[HoiDongBaoVe] ([id_hoi_dong])
+GO
+ALTER TABLE [dbo].[ThanhVienHoiDong] CHECK CONSTRAINT [FK_ThanhVienHoiDong_IdHoiDong_HoiDongBaoVe_Id]
+GO
+ALTER TABLE [dbo].[ThanhVienHoiDong]  WITH CHECK ADD  CONSTRAINT [FK_ThanhVienHoiDong_MaGiangVien_NguoiDung_MaSo] FOREIGN KEY([ma_giang_vien])
+REFERENCES [dbo].[NguoiDung] ([ma_so])
+GO
+ALTER TABLE [dbo].[ThanhVienHoiDong] CHECK CONSTRAINT [FK_ThanhVienHoiDong_MaGiangVien_NguoiDung_MaSo]
+GO
+ALTER TABLE [dbo].[ThanhVienHoiDong]  WITH CHECK ADD CONSTRAINT [CK_ThanhVienHoiDong_VaiTro] CHECK (([vai_tro]='uy_vien' OR [vai_tro]='thu_ky' OR [vai_tro]='phan_bien' OR [vai_tro]='chu_tich'))
+GO
