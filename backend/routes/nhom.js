@@ -57,8 +57,22 @@ router.post('/create', authenticateSinhVien, async (req, res) => {
       return res.status(400).json({ message: 'Bạn đã tham gia một nhóm' });
     }
 
+    // Kiểm tra trùng tên nhóm
+    const checkTenNhom = await transaction.request()
+      .input('ten_nhom', sql.NVarChar(50), ten_nhom)
+      .query('SELECT * FROM NhomSinhVien WHERE ten_nhom = @ten_nhom');
+    if (checkTenNhom.recordset.length > 0) {
+      await transaction.rollback();
+      console.log('Tên nhóm đã tồn tại:', { ten_nhom });
+      return res.status(400).json({ message: 'Tên nhóm đã tồn tại, vui lòng chọn tên khác' });
+    }
+
     // Tạo mã nhóm
-    const ma_nhom = `NHOM${Date.now()}`;
+    const result = await transaction.request().query(`
+      SELECT 'NHOM' + RIGHT('000' + CAST((ISNULL(MAX(CAST(RIGHT(ma_nhom, 3) AS INT)), 0) + 1) AS VARCHAR(3)), 3)
+      FROM NhomSinhVien
+    `);
+    const ma_nhom = result.recordset[0][''];
     console.log('Tạo mã nhóm:', { ma_nhom });
 
     // Tạo nhóm
@@ -148,7 +162,7 @@ router.get('/sinhvien/chua-co-nhom', authenticateSinhVien, async (req, res) => {
     const result = await pool.request()
       .input('ma_khoa', sql.VarChar(20), ma_khoa)
       .query(`
-        SELECT s.ma_so, nd.ho_ten, nd.email, nd.sdt
+       SELECT s.ma_so, nd.ho_ten, nd.email, nd.sdt, s.ma_khoa
         FROM SinhVien s
         JOIN NguoiDung nd ON s.ma_so = nd.ma_so
         WHERE s.ma_khoa = @ma_khoa

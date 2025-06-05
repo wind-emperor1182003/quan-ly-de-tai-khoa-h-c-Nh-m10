@@ -60,56 +60,58 @@ const RegisterDeTai = ({ onCreateNhom, danhSachNhom }) => {
 
   return (
     <Card className="shadow-sm mb-4">
-      <Card.Body>
-        <h2 className="gradient-text">Đăng Ký Nhóm</h2>
-        <p className="text-muted mb-4">
-          Nhập tên nhóm để tạo nhóm mới. Tên nhóm phải có ít nhất 3 ký tự và không chứa ký tự đặc biệt.
-          <br />
-          Hiện có <strong>{danhSachNhom.length}</strong> nhóm trong hệ thống.
-        </p>
-        <Form onSubmit={handleCreateNhom}>
-          <Form.Group className="mb-3">
-            <Form.Label>Tên nhóm</Form.Label>
-            <FormControl
-              type="text"
-              value={tenNhom}
-              onChange={(e) => {
-                setTenNhom(e.target.value);
-                setLocalError('');
-              }}
-              placeholder="Ví dụ: Nhóm Công Nghệ 01"
-              required
-              disabled={loading}
-            />
-            {localError && <p className="text-danger mt-2">{localError}</p>}
-          </Form.Group>
-          <div className="d-flex">
-            <Button
-              type="submit"
-              className="modern-btn me-2"
-              disabled={loading}
-            >
-              {loading ? (
-                <>
-                  <Spinner size="sm" className="me-2" />
-                  Đang tạo...
-                </>
-              ) : (
-                'Tạo Nhóm'
-              )}
-            </Button>
-            <Button
-              variant="secondary"
-              className="modern-btn"
-              onClick={handleCancel}
-              disabled={loading}
-            >
-              Hủy
-            </Button>
-          </div>
-        </Form>
-      </Card.Body>
-    </Card>
+  <Card.Body>
+    <h2 className="gradient-text">Đăng Ký Nhóm</h2>
+    <p className="text-muted mb-4">
+      Nhập tên nhóm để tạo nhóm mới. Tên nhóm phải có ít nhất 3 ký tự và không chứa ký tự đặc biệt.
+      <br />
+      Khi đăng ký nhóm, bạn sẽ trở thành <strong>nhóm trưởng</strong>, chịu trách nhiệm quản lý các chức năng như đăng ký đề tài, nộp báo cáo, và chỉnh sửa thông tin nhóm. Các thành viên không phải nhóm trưởng chỉ có thể xem thông tin nhóm.
+      <br />
+      Hiện có <strong>{danhSachNhom.length}</strong> nhóm trong hệ thống.
+    </p>
+    <Form onSubmit={handleCreateNhom}>
+      <Form.Group className="mb-3">
+        <Form.Label>Tên nhóm</Form.Label>
+        <FormControl
+          type="text"
+          value={tenNhom}
+          onChange={(e) => {
+            setTenNhom(e.target.value);
+            setLocalError('');
+          }}
+          placeholder="Ví dụ: Nhóm Công Nghệ 01"
+          required
+          disabled={loading}
+        />
+        {localError && <p className="text-danger mt-2">{localError}</p>}
+      </Form.Group>
+      <div className="d-flex">
+        <Button
+          type="submit"
+          className="modern-btn me-2"
+          disabled={loading}
+        >
+          {loading ? (
+            <>
+              <Spinner size="sm" className="me-2" />
+              Đang tạo...
+            </>
+          ) : (
+            'Tạo Nhóm'
+          )}
+        </Button>
+        <Button
+          variant="secondary"
+          className="modern-btn"
+          onClick={handleCancel}
+          disabled={loading}
+        >
+          Hủy
+        </Button>
+      </div>
+    </Form>
+  </Card.Body>
+</Card>
   );
 };
 
@@ -727,49 +729,51 @@ const StudentDashboard = () => {
     </Card>
   );
 
-  const MoiThanhVien = () => (
-    <Card className="shadow-sm">
-      <Card.Body>
-        <h2 className="gradient-text">Mời Thành Viên</h2>
-        {nhom && user?.ma_so === nhom.ma_so_nhom_truong ? (
-          <>
-            <Table responsive className="modern-table">
-              <thead>
-                <tr>
-                  <th>Mã số</th>
-                  <th>Họ tên</th>
-                  <th>Số điện thoại</th>
-                  <th>Email</th>
-                  <th>Hành động</th>
+ const MoiThanhVien = () => (
+  <Card className="shadow-sm">
+    <Card.Body>
+      <h2 className="gradient-text">Mời Thành Viên</h2>
+      {nhom && user?.ma_so === nhom.ma_so_nhom_truong ? (
+        <>
+          <Table responsive className="modern-table">
+            <thead>
+              <tr>
+                <th>Mã số</th>
+                <th>Họ tên</th>
+                <th>Số điện thoại</th>
+                <th>Email</th>
+                <th>Khoa</th>
+                <th>Hành động</th>
+              </tr>
+            </thead>
+            <tbody>
+              {sinhVienChuaCoNhom.map((sv) => (
+                <tr key={sv.ma_so} className="slide-in">
+                  <td>{sv.ma_so}</td>
+                  <td>{sv.ho_ten}</td>
+                  <td>{sv.sdt || 'Chưa có'}</td>
+                  <td>{sv.email}</td>
+                  <td>{sv.ma_khoa}</td>
+                  <td>
+                    <Button
+                      className="modern-btn"
+                      onClick={() => handleMoiThanhVien(sv.ma_so)}
+                      disabled={nhom.so_luong_thanh_vien >= nhom.so_luong_sinh_vien_toi_da}
+                    >
+                      {nhom.so_luong_thanh_vien >= nhom.so_luong_sinh_vien_toi_da ? 'Nhóm Đầy' : 'Mời'}
+                    </Button>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {sinhVienChuaCoNhom.map((sv) => (
-                  <tr key={sv.ma_so} className="slide-in">
-                    <td>{sv.ma_so}</td>
-                    <td>{sv.ho_ten}</td>
-                    <td>{sv.sdt || 'Chưa có'}</td>
-                    <td>{sv.email}</td>
-                    <td>
-                      <Button
-                        className="modern-btn"
-                        onClick={() => handleMoiThanhVien(sv.ma_so)}
-                        disabled={nhom.so_luong_thanh_vien >= nhom.so_luong_sinh_vien_toi_da}
-                      >
-                        {nhom.so_luong_thanh_vien >= nhom.so_luong_sinh_vien_toi_da ? 'Nhóm Đầy' : 'Mời'}
-                      </Button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
-          </>
-        ) : (
-          <p className="text-muted">Bạn không có quyền truy cập chức năng này.</p>
-        )}
-      </Card.Body>
-    </Card>
-  );
+              ))}
+            </tbody>
+          </Table>
+        </>
+      ) : (
+        <p className="text-muted">Bạn không có quyền truy cập chức năng này.</p>
+      )}
+    </Card.Body>
+  </Card>
+);
 
   const LoiXinNhom = () => (
     <Card className="shadow-sm">
